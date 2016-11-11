@@ -1,9 +1,10 @@
-﻿namespace CourseProject.Schedule.DAL.Interfaces
+﻿using System.Collections.Generic;
+
+namespace CourseProject.Schedule.DAL.Interfaces
 {
     public interface IRepository
     {
-        object Get(object studentGroup);
-        object Groups();
+        IEnumerable<object> Get();
         void Update();
     }
 }

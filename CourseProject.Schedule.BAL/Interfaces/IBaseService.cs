@@ -1,9 +1,10 @@
-﻿namespace CourseProject.Schedule.BAL.Interfaces
+﻿using System.Collections.Generic;
+
+namespace CourseProject.Schedule.BAL.Interfaces
 {
     public interface IBaseService
     {
-        object Get(object studentGroup);
-        object Groups();
+        IEnumerable<object> Get();
         void Update();
     }
 }

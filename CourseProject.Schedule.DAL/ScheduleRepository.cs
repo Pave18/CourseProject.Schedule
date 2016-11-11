@@ -1,24 +1,18 @@
 ﻿using CourseProject.Schedule.DAL.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
 namespace CourseProject.Schedule.DAL
 {
-    class ScheduleRepository : IRepository
+    public class ScheduleRepository : IRepository
     {
         ScheduleContext context = new ScheduleContext();
 
-        public object Get(object studentGroup)
+        IEnumerable<object> IRepository.Get()
         {
-            var result = (from s in context.Schedules where s.studentGroup == studentGroup.ToString() select s).FirstOrDefault();
-            return result;
-        }
-
-        public object Groups()
-        {
-            var result = (from s in context.Schedules select s.studentGroup).FirstOrDefault();
-            return result;
+            return context.Schedules;
         }
 
         public void Update()
