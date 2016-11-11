@@ -2,8 +2,9 @@
 {
     public class Schedule
     {
-        public string weekDay { get; set; }
         public int scheduleId { get; set; }
+
+        public string weekDay { get; set; }
         public string auditory { get; set; }
         public Employee employee { get; set; }
         public string lessonTime { get; set; }

@@ -6,6 +6,5 @@
         public string academicDepartment { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
-        public byte[] Photo { get; set; }
     }
 }
