@@ -1,6 +1,6 @@
-﻿namespace CourseProject.Schedule.DAL.Interfaces
+﻿namespace CourseProject.Schedule.BAL.Interfaces
 {
-    public interface IRepository
+    public interface IBaseService
     {
         object Get(object studentGroup);
         object Groups();
