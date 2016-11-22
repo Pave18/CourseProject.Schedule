@@ -2,16 +2,29 @@
 using CourseProject.Schedule.DAL;
 using CourseProject.Schedule.DAL.Interfaces;
 using System.Collections.Generic;
+using System;
 
 namespace CourseProject.Schedule.BAL
 {
     public class ScheduleBAL : IBaseService
     {
-        private IRepository _repository = new ScheduleRepository();
+        private IRepository _repository;
+        private IEnumerable<object> Db;
 
-        public IEnumerable<object> Get()
+        public ScheduleBAL()
         {
-            return _repository.Get();
+            _repository = new ScheduleRepository();
+            Db = _repository.Get();
+        }
+        
+        public IEnumerable<object> GetGroups()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<object> GetSchedules()
+        {
+            throw new NotImplementedException();
         }
 
         public void Update()

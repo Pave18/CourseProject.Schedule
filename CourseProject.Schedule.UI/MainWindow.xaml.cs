@@ -22,25 +22,34 @@ namespace CourseProject.Schedule.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        IBaseService BS;
+
         public MainWindow()
         {
             InitializeComponent();
-            //ScheduleBAL BS = new ScheduleBAL();
-            //foreach (var item in BS.Get())
-            //{
-            //    comboBoxGroups.Items.Add("");
-            //}
-        }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
+            BS = new ScheduleBAL();
 
+            foreach (var item in BS.GetGroups())
+            {
+                comboBoxGroups.Items.Add(item.ToString());
+            }
         }
 
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Update_Click(object sender, RoutedEventArgs e)
+        {
+            BS.Update();
         }
     }
 }

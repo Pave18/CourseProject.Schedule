@@ -4,7 +4,8 @@ namespace CourseProject.Schedule.BAL.Interfaces
 {
     public interface IBaseService
     {
-        IEnumerable<object> Get();
+        IEnumerable<object> GetSchedules();
+        IEnumerable<object> GetGroups();
         void Update();
     }
 }
