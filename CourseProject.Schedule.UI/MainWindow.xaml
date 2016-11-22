@@ -5,10 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseProject.Schedule.UI"
         mc:Ignorable="d"
-        Title="Schedule" Height="635" Width="501" ResizeMode="NoResize">
+        Title="Schedule" Height="635" Width="501" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <ComboBox x:Name="comboBoxGroups" HorizontalAlignment="Left" VerticalAlignment="Top" Width="485" SelectionChanged="comboBox_SelectionChanged" Height="36" Margin="0,44,0,0"/>
-        <DataGrid x:Name="dataGridSchedule" HorizontalAlignment="Left" Margin="0,85,0,0" VerticalAlignment="Top" Height="521" Width="485"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="485" Height="39"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <ComboBox x:Name="comboBoxGroups" SelectionChanged="comboBox_SelectionChanged" Margin="4"/>
+
+        <DataGrid x:Name="dataGridSchedule" IsReadOnly="True" Grid.Row="1" Margin="4"/>
+
     </Grid>
 </Window>

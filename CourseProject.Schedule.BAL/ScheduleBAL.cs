@@ -2,34 +2,54 @@
 using CourseProject.Schedule.DAL;
 using CourseProject.Schedule.DAL.Interfaces;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 
 namespace CourseProject.Schedule.BAL
 {
     public class ScheduleBAL : IBaseService
     {
-        private IRepository _repository;
-        private IEnumerable<object> Db;
+        protected readonly IScheduleService scheduleService;
+        protected readonly IScheduleRepository scheduleRepository;
 
         public ScheduleBAL()
         {
-            _repository = new ScheduleRepository();
-            Db = _repository.Get();
-        }
-        
-        public IEnumerable<object> GetGroups()
-        {
-            throw new NotImplementedException();
+            scheduleService = new ScheduleService();
+            scheduleRepository = new ScheduleRepository();
         }
 
-        public IEnumerable<object> GetSchedules()
+        public IEnumerable<string> GetGroups()
         {
-            throw new NotImplementedException();
+            var groups = scheduleRepository.GetGroups();
+
+            if (!groups.Any())
+            {
+                Update();
+
+                groups = scheduleRepository.GetGroups();
+            }
+
+            return groups;
         }
 
-        public void Update()
+        public IEnumerable<DAL.Models.Schedule> GetSchedules(string group)
         {
-            _repository.Update();
+            var schedules = scheduleRepository.GetSchedules(group);
+
+            if (!schedules.Any())
+            {
+                Update();
+
+                schedules = scheduleRepository.GetSchedules(group);
+            }
+
+            return schedules;
+        }
+
+        private void Update()
+        {
+            var schedules = scheduleService.GetSchedulesFromNetwork();
+
+            scheduleRepository.AddSchedules(schedules);
         }
     }
 }

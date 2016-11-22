@@ -1,7 +1,12 @@
-﻿namespace CourseProject.Schedule.DAL.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CourseProject.Schedule.DAL.Models
 {
     public class Schedule
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int scheduleId { get; set; }
 
         public string weekDay { get; set; }

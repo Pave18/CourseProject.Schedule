@@ -2,7 +2,7 @@
 
 namespace CourseProject.Schedule.DAL
 {
-    class ScheduleContext : DbContext
+    public class ScheduleContext : DbContext
     {
         public ScheduleContext() : base("name=ScheduleDB") { }
 

@@ -1,91 +1,34 @@
 ﻿using CourseProject.Schedule.DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 
 namespace CourseProject.Schedule.DAL
 {
-    public class ScheduleRepository : IRepository
+    public class ScheduleRepository : IScheduleRepository
     {
-        ScheduleContext context = new ScheduleContext();
-
-        IEnumerable<object> IRepository.Get()
+        public IEnumerable<Models.Schedule> GetSchedules(string group)
         {
-            return context.Schedules;
+            using (var context = new ScheduleContext())
+            {
+                return context.Schedules.Where(x => x.studentGroup.Equals(group)).ToList();
+            }
         }
 
-        public void Update()
+        public IEnumerable<string> GetGroups()
         {
-            XmlDocument document = new XmlDocument();
-            document.Load(@"XMLFileDB.xml");
-
-            try
+            using (var context = new ScheduleContext())
             {
-                foreach (XmlNode node in document.SelectNodes("/scheduleXmlModels/scheduleModel"))
-                {
-                    Models.Employee Empl = new Models.Employee() { };
-                    Models.Schedule Sched = new Models.Schedule() { employee = Empl };
-
-                    Sched.weekDay = node.LastChild.InnerText; //weekdays
-
-                    for (int i = 0; i < node.ChildNodes.Count - 1; i++)
-                    {
-                        for (int j = 0; j < node.ChildNodes[i].ChildNodes.Count; j++)
-                        {
-                            if (node.ChildNodes[i].ChildNodes[j].Name == "auditory")
-                            {
-                                Sched.auditory = node.ChildNodes[i].ChildNodes[j].InnerText;
-                            }
-                            if (node.ChildNodes[i].ChildNodes[j].Name == "employee")
-                            {
-                                for (int k = 0; k < node.ChildNodes[i].ChildNodes[j].ChildNodes.Count; k++)
-                                {
-                                    if (node.ChildNodes[i].ChildNodes[j].ChildNodes[k].Name == "id")
-                                        Empl.employeeId = Int32.Parse(node.ChildNodes[i].ChildNodes[j].ChildNodes[k].InnerText);
-                                    if (node.ChildNodes[i].ChildNodes[j].ChildNodes[k].Name == "academicDepartment")
-                                        Empl.academicDepartment = node.ChildNodes[i].ChildNodes[j].ChildNodes[k].InnerText;
-                                    if (node.ChildNodes[i].ChildNodes[j].ChildNodes[k].Name == "firstName")
-                                        Empl.firstName = node.ChildNodes[i].ChildNodes[j].ChildNodes[k].InnerText;
-                                    if (node.ChildNodes[i].ChildNodes[j].ChildNodes[k].Name == "lastName")
-                                        Empl.lastName = node.ChildNodes[i].ChildNodes[j].ChildNodes[k].InnerText;
-                                }
-                            }
-                            if (node.ChildNodes[i].ChildNodes[j].Name == "lessonTime")
-                            {
-                                Sched.lessonTime = node.ChildNodes[i].ChildNodes[j].InnerText;
-                            }
-                            if (node.ChildNodes[i].ChildNodes[j].Name == "lessonType")
-                            {
-                                Sched.lessonType = node.ChildNodes[i].ChildNodes[j].InnerText;
-                            }
-                            if (node.ChildNodes[i].ChildNodes[j].Name == "note")
-                            {
-                                Sched.note = node.ChildNodes[i].ChildNodes[j].InnerText;
-                            }
-                            if (node.ChildNodes[i].ChildNodes[j].Name == "numSubgroup")
-                            {
-                                Sched.numSubgroup = Int32.Parse(node.ChildNodes[i].ChildNodes[j].InnerText);
-                            }
-                            if (node.ChildNodes[i].ChildNodes[j].Name == "studentGroup")
-                            {
-                                Sched.studentGroup = node.ChildNodes[i].ChildNodes[j].InnerText;
-                            }
-                            if (node.ChildNodes[i].ChildNodes[j].Name == "subject")
-                            {
-                                Sched.subject = node.ChildNodes[i].ChildNodes[j].InnerText;
-                            }
-                            if (node.ChildNodes[i].ChildNodes[j].Name == "zaoch")
-                            {
-                                Sched.zaoch = Boolean.Parse(node.ChildNodes[i].ChildNodes[j].InnerText);
-                            }
-                        }
-                        context.Schedules.Add(Sched);
-                    }
-                }
+                return context.Schedules.Select(x => x.studentGroup).Distinct().ToList();
             }
-            catch (OperationCanceledException)
-            {}
+        }
+
+        public void AddSchedules(IEnumerable<Models.Schedule> schedules)
+        {
+            using (var context = new ScheduleContext())
+            {
+                context.Schedules.AddRange(schedules);
+                context.SaveChanges();
+            }
         }
     }
 }
